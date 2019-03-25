@@ -40,9 +40,9 @@ class GUI_Board():
 
         self.window.bindtags("ButtonPress-1")
 
-        self.canvas.tag_bind("ship", "<ButtonPress-1>", self.on_token_press)
-        self.canvas.tag_bind("ship", "<ButtonRelease-1>", self.on_token_release)
-        self.canvas.tag_bind("ship", "<B1-Motion>", self.on_token_motion)
+        self.canvas.tag_bind("ship", "<ButtonPress-1>", self.on_ship_press)
+        self.canvas.tag_bind("ship", "<ButtonRelease-1>", self.on_ship_release)
+        self.canvas.tag_bind("ship", "<B1-Motion>", self.on_ship_motion)
 
         self.window.mainloop()
 
@@ -79,19 +79,19 @@ class GUI_Board():
 
     # Keeps track of the position when a particular ship is clicked
         #Track starts from item 2
-    def on_token_press(self, event):
+    def on_ship_press(self, event):
         self._drag_data["item"] = self.canvas.find_closest(event.x, event.y)[0]
         self._drag_data["x"] = event.x
         self._drag_data["y"] = event.y
 
     # Keeps track of the position when a particular ship is released
-    def on_token_release(self, event):
+    def on_ship_release(self, event):
         self._drag_data["item"] = None
         self._drag_data["x"] = 0
         self._drag_data["y"] = 0
 
     # Keeps track of the motion of a particular ship
-    def on_token_motion(self, event):
+    def on_ship_motion(self, event):
         delta_x = event.x - self._drag_data["x"]
         delta_y = event.y - self._drag_data["y"]
 
