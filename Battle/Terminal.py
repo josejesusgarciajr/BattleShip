@@ -9,6 +9,8 @@ from Player import Player
 jose = Player("Jose", True, 0)
 leslie = Player("Leslie", False, 0)
 
+    #  player.placeShip(id, x, i, y, j)
+
 while(True):
     if jose.status == True:
         x = input("What Column " +  jose.name + "?") - 1

@@ -8,24 +8,37 @@ from Ship import Ship
 
 class Player:
     def __init__(self, name, status, wins):
-        self.name = name
-        self. status = status
-        self.wins = wins
-        self.grid = self.makeMap()
-        self.ships = [Ship("Aircraft Carrier", 5),
-                      Ship("Battleship", 4),
-                      Ship("Submarine", 3),
-                      Ship("Cruiser", 3),
-                      Ship("Destroyer", 2)]
-        self.placeShips()
+        self.name = name        # Every player has a NAME
+        self.status = status  # STATUS is a boolean (True if its players Turn, False if enemys turn)
+        self.wins = wins    # Number of wins player has
+        self.grid = self.makeMap()      # Makes empty grid
+        self.ships = [] # List of SHIPS
     
     def makeMap(self):  ## generates a 9 by 8 matrix as the grid
-        return [['#' for x in range(9)] for y in range(8)]
+        return [['#' for x in range(10)] for y in range(10)]
     
-    def placeShips(self):
-        for ship in self.ships:
-            print("Implement this methon Brandon A.")
+    def step(self, x, i, y, j):     # Step returns a Tuple: (Start, Stop, how many to move)
+        if x == i:      # if x == i, then we know the ship is VERTICAL
+            if y < j:       
+                return (y, j, 1) 
+            return (y, j, -1)
+        if x < i:   # since x != i, we know the ship is HORIZONTAL
+            return (x, i, 1)        
+        return (x, i, -1)
     
+    def placeShip(self, idd, x, i, y, j): # Assume that x and y are valid
+        
+        ship = Ship(idd, x, i, y, j)   # create ship
+        
+        self.ships.append(ship)     # adds ship to ship list
+                               
+        (start, stop, jump) = self.step(x, i, y, j)
+        for v in range(start - 1, stop, jump):  # Adds ship to the Grid
+            if x == i:
+                self.grid[v][x] = "s"
+            else:
+                self.grid[y][v] = "s"
+        
     def validCoordinates(self, x , y):      # checks whether or not coordinates are valid
         print("X: " + str(x))
         print("Y: " + str(y))
