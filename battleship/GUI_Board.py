@@ -1,6 +1,8 @@
 from tkinter import *
 from PIL import Image, ImageTk
 
+from battleship.Ship_Data import Ship_Data
+
 
 class GUI_Board():
     def __init__(self):
@@ -36,7 +38,9 @@ class GUI_Board():
 
         self.create_ships()
 
-
+        # ID STARTS FROM 3
+        self.ships = [('Aircraft Carrier', 3), ('Battleship', 4), ('Cruiser', 5), ('Destroyer', 6), ('Submarine', 7)]
+        self.store_data()
 
         self.window.bindtags("ButtonPress-1")
 
@@ -78,14 +82,28 @@ class GUI_Board():
             i+=1
 
     # Keeps track of the position when a particular ship is clicked
-        #Track starts from item 2
+        #Track starts from item 3
     def on_ship_press(self, event):
         self._drag_data["item"] = self.canvas.find_closest(event.x, event.y)[0]
         self._drag_data["x"] = event.x
         self._drag_data["y"] = event.y
 
+        print("The ship clicked is ", self._drag_data["item"])
+
     # Keeps track of the position when a particular ship is released
     def on_ship_release(self, event):
+        self.top_x = self.canvas.coords(self._drag_data["item"])[0]
+        self.top_y = self.canvas.coords(self._drag_data["item"])[1]
+
+        # Canvas coordinates gives center thus divide by 2
+        self.top_x /= 2
+        self.top_y /= 2
+
+        print("Just moved ", self._drag_data["item"])
+        self.ship_data[self._drag_data["item"] - 3].top_x = self.top_x
+        self.ship_data[self._drag_data["item"] - 3].top_y = self.top_y
+        print("Updated top coordinates for ", self.ship_data[self._drag_data["item"] - 3].name," to ", self.ship_data[self._drag_data["item"] - 3].top_x)
+
         self._drag_data["item"] = None
         self._drag_data["x"] = 0
         self._drag_data["y"] = 0
@@ -100,5 +118,14 @@ class GUI_Board():
         # New position
         self._drag_data["x"] = event.x
         self._drag_data["y"] = event.y
+
+    def store_data(self):
+        self.ship_data = []
+        i = 0
+        j = 1
+        k = 0
+        for s in range(5):
+            self.ship_data.append(Ship_Data(self.ships[i][j], self.ships[i][k], 0, 0))
+            i += 1
 
 GUI_Board()
