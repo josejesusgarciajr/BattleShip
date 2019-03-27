@@ -95,14 +95,15 @@ class GUI_Board():
         self.top_x = self.canvas.coords(self._drag_data["item"])[0]
         self.top_y = self.canvas.coords(self._drag_data["item"])[1]
 
-        # Canvas coordinates gives center thus divide by 2
-        self.top_x /= 2
+        # Canvas coordinates gives center thus divide by 2 for y coordinate
+            #Add orientation status too
+        #self.top_x /= 2
         self.top_y /= 2
 
         print("Just moved ", self._drag_data["item"])
         self.ship_data[self._drag_data["item"] - 3].top_x = self.top_x
         self.ship_data[self._drag_data["item"] - 3].top_y = self.top_y
-        print("Updated top coordinates for ", self.ship_data[self._drag_data["item"] - 3].name," to ", self.ship_data[self._drag_data["item"] - 3].top_x)
+        print("Updated top coordinates for ", self.ship_data[self._drag_data["item"] - 3].name," to ", self.ship_data[self._drag_data["item"] - 3].top_y)
 
         self._drag_data["item"] = None
         self._drag_data["x"] = 0
